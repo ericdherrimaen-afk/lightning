@@ -644,6 +644,12 @@ static int reverse_cmp_flows(struct flow *const *fa, struct flow *const *fb,
 	return 1;
 }
 
+static void remove_and_free_flow(struct flow ***flows, size_t i)
+{
+	tal_free((*flows)[i]);
+	tal_arr_remove(flows, i);
+}
+
 bool remove_flows(struct flow ***flows, u32 n)
 {
 	if (n == 0)
@@ -653,7 +659,7 @@ bool remove_flows(struct flow ***flows, u32 n)
 	asort(*flows, tal_count(*flows), reverse_cmp_flows, NULL);
 	for (size_t count = tal_count(*flows); n > 0; n--, count--) {
 		assert(count > 0);
-		tal_arr_remove(flows, count - 1);
+		remove_and_free_flow(flows, count - 1);
 	}
 	return true;
 fail:
