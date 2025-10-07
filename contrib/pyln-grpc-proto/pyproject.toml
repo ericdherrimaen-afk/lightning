@@ -18,7 +18,7 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.9"
 grpcio = "*"
-protobuf = "5.29.4"
+protobuf = "4.25.8"
 
 [tool.poetry.group.dev.dependencies]
 grpcio = "*"
